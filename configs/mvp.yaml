@@ -1,0 +1,20 @@
+years: 3
+seed: 123
+cat_process:
+  kind: poisson
+  rate: 1.2
+severity:
+  kind: lognormal
+  mu: 0.0
+  sigma: 1.0
+mortality:
+  kind: event_linked_jump
+  jump_prob: 0.2
+mapping:
+  kind: linear
+  factor: 1.0
+  intercept: 0.0
+insurance:
+  contracts:
+    - limit: 1000000.0
+      attachment: 100000.0
