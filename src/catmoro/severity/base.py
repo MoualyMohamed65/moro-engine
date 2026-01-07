@@ -7,5 +7,5 @@ from ..core.rng import RNG
 
 class SeverityModel(ABC):
     @abstractmethod
-    def sample(self, rng: RNG, count: int) -> list[float]:
+    def sample(self, rng: RNG, event_types: list[str]) -> list[float]:
         raise NotImplementedError

@@ -1,20 +1,39 @@
-years: 3
-seed: 123
+simulation:
+  n_years: 1000
+  seed: 123
 cat_process:
   kind: poisson
-  rate: 1.2
+  annual_rate: 1.2
+  event_type_mix:
+    earthquake: 0.3
+    flood: 0.4
+    storm: 0.3
 severity:
   kind: lognormal
-  mu: 0.0
-  sigma: 1.0
+  mu: 16.5
+  sigma: 0.9
+  event_type_params:
+    earthquake:
+      mu: 17.2
+      sigma: 0.95
+    flood:
+      mu: 16.3
+      sigma: 0.85
+    storm:
+      mu: 15.8
+      sigma: 0.8
 mortality:
   kind: event_linked_jump
+  base_lambda: 20.0
   jump_prob: 0.2
-mapping:
+  jump_lambda: 120.0
+loss_mapping:
   kind: linear
-  factor: 1.0
-  intercept: 0.0
-insurance:
-  contracts:
-    - limit: 1000000.0
-      attachment: 100000.0
+  cost_per_excess_death: 2000000.0
+reinsurance:
+  program:
+    - kind: quota_share
+      share: 0.2
+    - kind: xol
+      attachment: 50000000.0
+      limit: 150000000.0

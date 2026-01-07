@@ -5,5 +5,5 @@ from abc import ABC, abstractmethod
 
 class MappingModel(ABC):
     @abstractmethod
-    def map_severity(self, losses: list[float]) -> list[float]:
+    def map_excess_deaths(self, excess_deaths: int) -> float:
         raise NotImplementedError

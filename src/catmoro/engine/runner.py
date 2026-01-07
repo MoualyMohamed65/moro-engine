@@ -7,14 +7,14 @@ from ..config.loader import (
     build_program,
     build_severity,
 )
-from ..config.schema import SimulationConfig
+from ..config.schema import SimulationConfig, SimulationSettings
 from ..core.rng import RNG
 from ..core.types import YearResult
 from .simulate_year import simulate_year
 
 
 def run_simulation(cfg: SimulationConfig) -> list[YearResult]:
-    rng = RNG(cfg.seed)
+    rng = RNG(cfg.simulation.seed)
     cat_process = build_cat_process(cfg)
     severity = build_severity(cfg)
     mortality = build_mortality(cfg)
@@ -22,7 +22,7 @@ def run_simulation(cfg: SimulationConfig) -> list[YearResult]:
     program = build_program(cfg)
 
     results: list[YearResult] = []
-    for year in range(1, cfg.years + 1):
+    for year in range(1, cfg.simulation.n_years + 1):
         results.append(
             simulate_year(
                 year,
@@ -38,5 +38,5 @@ def run_simulation(cfg: SimulationConfig) -> list[YearResult]:
 
 
 def run_tiny_simulation() -> list[YearResult]:
-    cfg = SimulationConfig(years=3, seed=7)
+    cfg = SimulationConfig(simulation=SimulationSettings(n_years=3, seed=7))
     return run_simulation(cfg)

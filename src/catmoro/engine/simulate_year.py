@@ -18,15 +18,19 @@ def simulate_year(
     mapping: MappingModel,
     program: Program,
 ) -> YearResult:
-    event_count = cat_process.sample_count(rng, year)
-    event_count = mortality.apply(event_count, rng)
-    severities = severity.sample(rng, event_count)
-    mapped = mapping.map_severity(severities)
-    gross = sum(mapped)
-    net = program.apply_total(gross)
+    event_types = cat_process.sample_events(rng, year)
+    severities = severity.sample(rng, event_types)
+    gross_cat_loss = sum(severities)
+    excess_deaths = mortality.sample_excess_deaths(event_types, rng)
+    gross_mortality_loss = mapping.map_excess_deaths(excess_deaths)
+    gross_total_loss = gross_cat_loss + gross_mortality_loss
+    net_loss, ceded_loss = program.apply_total(gross_total_loss)
     return YearResult(
         year=year,
-        event_count=event_count,
-        gross_loss=gross,
-        net_loss=net,
+        event_count=len(event_types),
+        gross_cat_loss=gross_cat_loss,
+        gross_mortality_loss=gross_mortality_loss,
+        gross_total_loss=gross_total_loss,
+        ceded_loss=ceded_loss,
+        net_loss=net_loss,
     )

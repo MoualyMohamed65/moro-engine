@@ -7,5 +7,5 @@ from ..core.rng import RNG
 
 class CatProcess(ABC):
     @abstractmethod
-    def sample_count(self, rng: RNG, year: int) -> int:
+    def sample_events(self, rng: RNG, year: int) -> list[str]:
         raise NotImplementedError

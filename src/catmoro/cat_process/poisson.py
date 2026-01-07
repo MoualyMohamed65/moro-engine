@@ -8,8 +8,16 @@ from .base import CatProcess
 
 @dataclass(frozen=True)
 class PoissonProcess(CatProcess):
-    rate: float
+    annual_rate: float
+    event_type_mix: dict[str, float]
 
-    def sample_count(self, rng: RNG, year: int) -> int:
+    def sample_events(self, rng: RNG, year: int) -> list[str]:
         _ = year
-        return rng.poisson(self.rate)
+        count = rng.poisson(self.annual_rate)
+        if count <= 0:
+            return []
+        if not self.event_type_mix:
+            return ["generic"] * count
+        event_types = list(self.event_type_mix.keys())
+        weights = list(self.event_type_mix.values())
+        return [rng.choice_weighted(event_types, weights) for _ in range(count)]

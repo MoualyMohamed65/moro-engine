@@ -34,3 +34,21 @@ class RNG:
     def choice(self, values: Iterable[int]) -> int:
         vals = list(values)
         return vals[self._rng.randrange(len(vals))]
+
+    def choice_weighted(self, values: Iterable[str], weights: Iterable[float]) -> str:
+        vals = list(values)
+        wts = list(weights)
+        if not vals:
+            raise ValueError("values must be non-empty")
+        if len(vals) != len(wts):
+            raise ValueError("values and weights must have the same length")
+        total = sum(wts)
+        if total <= 0.0:
+            raise ValueError("weights must sum to a positive number")
+        threshold = self._rng.random() * total
+        cumulative = 0.0
+        for value, weight in zip(vals, wts, strict=True):
+            cumulative += weight
+            if threshold <= cumulative:
+                return value
+        return vals[-1]

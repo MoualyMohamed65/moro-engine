@@ -9,6 +9,11 @@ from .contracts import Contract
 class Program:
     contracts: list[Contract]
 
-    def apply_total(self, gross_loss: float) -> float:
-        recovery = sum(c.recovery(gross_loss) for c in self.contracts)
-        return max(gross_loss - recovery, 0.0)
+    def apply_total(self, gross_loss: float) -> tuple[float, float]:
+        remaining = gross_loss
+        ceded_total = 0.0
+        for contract in self.contracts:
+            ceded = contract.ceded(remaining)
+            ceded_total += ceded
+            remaining = max(remaining - ceded, 0.0)
+        return remaining, ceded_total

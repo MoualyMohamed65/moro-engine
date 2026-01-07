@@ -7,5 +7,5 @@ from ..core.rng import RNG
 
 class MortalityModel(ABC):
     @abstractmethod
-    def apply(self, event_count: int, rng: RNG) -> int:
+    def sample_excess_deaths(self, event_types: list[str], rng: RNG) -> int:
         raise NotImplementedError
