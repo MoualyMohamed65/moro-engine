@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from typing import Callable, Iterable
+from collections.abc import Callable, Iterable
 
 
 def grid_search(values: Iterable[float], objective: Callable[[float], float]) -> float:

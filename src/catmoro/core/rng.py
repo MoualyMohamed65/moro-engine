@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import math
 import random
-from typing import Iterable
+from collections.abc import Iterable
 
 
 class RNG:
@@ -20,10 +20,10 @@ class RNG:
     def poisson(self, rate: float) -> int:
         if rate <= 0.0:
             return 0
-        l = math.exp(-rate)
+        threshold = math.exp(-rate)
         k = 0
         p = 1.0
-        while p > l:
+        while p > threshold:
             k += 1
             p *= self._rng.random()
         return k - 1

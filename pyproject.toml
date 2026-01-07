@@ -1,4 +1,4 @@
-[build-system]
+﻿[build-system]
 requires = ["setuptools>=68", "wheel"]
 build-backend = "setuptools.build_meta"
 
@@ -26,8 +26,10 @@ where = ["src"]
 [tool.ruff]
 line-length = 88
 target-version = "py312"
-select = ["E", "F", "I", "UP", "B"]
 
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B"]
 [tool.pytest.ini_options]
 testpaths = ["tests"]
 addopts = "-q"
+
